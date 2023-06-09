@@ -1,0 +1,20 @@
+site_name: Mizool Playbook
+
+theme:
+  name: material
+
+  features:
+    - content.code.copy
+    - navigation.instant
+    - navigation.sections
+    - navigation.tracking
+    - toc.integrate
+
+markdown_extensions:
+  - admonition
+  - def_list
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
