@@ -1,5 +1,15 @@
 site_name: Mizool Playbook
 
+nav:
+  - index.md
+  - Code conventions:
+    - code-conventions/general-naming.md
+    - code-conventions/java.md
+    - code-conventions/javascript.md
+    - code-conventions/maven.md
+  - Best practices:
+    - best-practices/user-and-address-data.md
+
 theme:
   name: material
 
