@@ -94,8 +94,7 @@ methods, no exception is thrown.
 `obtain*`
 :   Returns a non-null reference or throws an exception. The result may be a default value.<br><br>Use this in cases
 where the calling site never wants to continue without the information. In contrast, `*ReadStore` classes treat the "
-present" and "absent" situation equally,
-see [OMG-13 - Store behavior when retrieving non-existent objects](https://incub8.atlassian.net/browse/OMG-13).
+present" and "absent" situation equally, see rule OMG-13.
 
     Example: `obtainTenant`
 
@@ -103,6 +102,7 @@ see [OMG-13 - Store behavior when retrieving non-existent objects](https://incub
 :   Unit test methods. Test methods can, but do not have to, incorporate names of methods of the class being tested.
 
     Examples: tests for the `fiddle()` method could be called `testFiddle` or `testFiddleRejectsNull`. A test of the serialization behavior, which does not invoke a method on the class to be
+
 tested, could be called `testSerialization`.
 
 `setUp` & `tearDown`
@@ -110,9 +110,9 @@ tested, could be called `testSerialization`.
 
 ## Variables
 
-As our methods and classes tend to be very short, the reader often encounters only one variable of each
-type anyway. Therefore, fields and local variables are usually named based on the class name. For example, a reference
-to a `BoundStatement` is simply named `boundStatement` or even `statement`.
+As our methods and classes tend to be very short, the reader often encounters only one variable of each type anyway.
+Therefore, fields and local variables are usually named based on the class name. For example, a reference to
+a `BoundStatement` is simply named `boundStatement` or even `statement`.
 
 If the approach above is not feasible because there are several variables of the same type, we add just enough
 information to the names to avoid ambiguities. The original class name could be kept as part of the name (for example if
