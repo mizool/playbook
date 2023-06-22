@@ -1,4 +1,7 @@
 site_name: Mizool Playbook
+repo_name: mizool/playbook
+repo_url: https://github.com/mizool/playbook
+edit_uri: edit/main/docs/
 
 nav:
   - index.md
@@ -12,11 +15,23 @@ nav:
 
 theme:
   name: material
-
+  custom_dir: overrides
   features:
+    - content.action.view
+    - content.action.edit
     - content.code.copy
     - navigation.instant
     - navigation.sections
+  icon:
+    repo: fontawesome/brands/github
+
+extra:
+  social:
+    - icon: fontawesome/brands/github 
+      link: https://github.com/mizool
+
+extra_css:
+  - stylesheets/extra.css
 
 markdown_extensions:
   - admonition
