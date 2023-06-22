@@ -6,17 +6,17 @@
 
     Names never include spaces unless specified otherwise.
 
-| Area               | Element                                  | Capitalization style | Notes                                                                                                                      |
-|--------------------|------------------------------------------|----------------------|----------------------------------------------------------------------------------------------------------------------------|
-| Java               | Package                                  | `lowercase`          | no word delimiter, e.g. `com.example.myproject.somepackagename`                                                            |
-| Java               | Class<br>Interface<br>Enum<br>Annotation | `UpperCamelCase`     | See [Class names](#class-names) below.                                                                                     |
-| Java               | Method<br>Variable                       | `lowerCamelCase`     | See [Method names](#method-names) below.                                                                                   |
-| Java               | Constant                                 | `UPPER_CASE`         | `static final`                                                                                                             |
-| Java               | Enum value                               | `UPPER_CASE`         |                                                                                                                            |
-| JavaScript         | Identifiers                              |                      | Try to mimic Java conventions as much as possible, e.g. treat modules injected via Require like Java classes.              |
-| JavaScript         | Files                                    | `lowerCamelCase`     |                                                                                                                            |
-| Maven              | group ID<br>artifact ID                  | `lowercase`          | Use '-' (minus sign) as a delimiter between certain elements, see Maven conventions.                                       |
-| Database           | Tables<br>Columns<br>Indexes<br>…        | `lower_case`         | Use for all identifiers in the database, regardless of whether it's Cassandra, SQL, or something else.                     |
+| Area               | Element                                  | Capitalization style | Notes                                                                                                                     |
+|--------------------|------------------------------------------|----------------------|---------------------------------------------------------------------------------------------------------------------------|
+| Java               | Package                                  | `lowercase`          | no word delimiter, e.g. `com.example.myproject.somepackagename`                                                           |
+| Java               | Class<br>Interface<br>Enum<br>Annotation | `UpperCamelCase`     | See [Class names](#class-names) below.                                                                                    |
+| Java               | Method<br>Variable                       | `lowerCamelCase`     | See [Method names](#method-names) below.                                                                                  |
+| Java               | Constant                                 | `UPPER_CASE`         | `static final`                                                                                                            |
+| Java               | Enum value                               | `UPPER_CASE`         |                                                                                                                           |
+| JavaScript         | Identifiers                              |                      | Try to mimic Java conventions as much as possible, e.g. treat modules injected via Require like Java classes.             |
+| JavaScript         | Files                                    | `lowerCamelCase`     |                                                                                                                           |
+| Maven              | group ID<br>artifact ID                  | `lowercase`          | Use '-' (minus sign) as a delimiter between certain elements, see [Maven conventions](maven.md#ids-of-artifacts-and-groups).                          |
+| Database           | Tables<br>Columns<br>Indexes<br>…        | `lower_case`         | Use for all identifiers in the database, regardless of whether it's Cassandra, SQL, or something else.                    |
 | General (Fallback) | File<br>Folder                           | `lowercase`          | If a word delimiter is required, prefer '-' (minus sign). If that character is not allowed, fall back to '_' (underscore). |
 
 ## General rules

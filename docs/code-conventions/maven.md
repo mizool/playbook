@@ -118,7 +118,7 @@ For the directory structure shown above, these rules result in the following art
 
 * General
     * Keep things tidy. Do not declare anything that is not used anymore, or even worse, not yet used.
-    * Order entries alphabetically by group ID and artifact ID. In the rare case where order matters for compilation, add a comment explaining the situation. See **Sorting POMs** below.
+    * Order entries alphabetically by group ID and artifact ID. In the rare case where order matters for compilation, add a comment explaining the situation. See [Sorting POMs](#sorting-poms) below.
 
 * Dependencies
     * Always declare dependencies explicitly, do not rely on transitive dependencies. `mvn dependency:analyze` helps with that.

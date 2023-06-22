@@ -17,7 +17,6 @@ theme:
     - content.code.copy
     - navigation.instant
     - navigation.sections
-    - navigation.tracking
 
 markdown_extensions:
   - admonition
@@ -27,3 +26,5 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - toc:
+      permalink: true
