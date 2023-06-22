@@ -1,3 +1,10 @@
 image: squidfunk/mkdocs-material:9.1.16
 command: mkdocs build
 public: site
+
+domains:
+  # Primary domain
+  - playbook.mizool.org
+  # Domains that redirect to the primary
+  - www.mizool.org
+  - mizool.org
