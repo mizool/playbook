@@ -1,3 +1,5 @@
+# Maven conventions
+
 ## General
 
 * Do not set the project `<name>`. It is redundant and results in additional maintenance when changing artifact IDs.
@@ -116,29 +118,43 @@ For the directory structure shown above, these rules result in the following art
 
 ## Managing dependencies
 
-* General
-    * Keep things tidy. Do not declare anything that is not used anymore, or even worse, not yet used.
-    * Order entries alphabetically by group ID and artifact ID. In the rare case where order matters for compilation, add a comment explaining the situation. See [Sorting POMs](#sorting-poms) below.
+* Keep things tidy. Do not declare anything that is not used anymore, or even worse, not yet used.
+* Order entries alphabetically by group ID and artifact ID. In the rare case where order matters for compilation, add a comment explaining the situation. See [Sorting POMs](#sorting-poms) below.
 
-* Dependencies
-    * Always declare dependencies explicitly, do not rely on transitive dependencies. `mvn dependency:analyze` helps with that.
-    * Never declare version numbers or scopes in dependencies, but only in the project's `<dependencyManagement>` block (see below).
-    * Declare the `<optional>` flag only on a dependency, never in `<dependencyManagement>`.
-    * Do not declare dependencies in POM modules, only in JAR/WAR modules. Even if multiple child modules have the same dependency, do not move up the dependency
-        * _This rule avoids declared-unused-dependency warnings from `mvn dependency:analyze`._
+### Dependencies
+* Always declare dependencies explicitly, do not rely on transitive dependencies. `mvn dependency:analyze` helps with that.
+* Never declare version numbers or scopes in dependencies, but only in the project's `<dependencyManagement>` block (see below).
+* Declare the `<optional>` flag only on a dependency, never in `<dependencyManagement>`.
+* Do not declare dependencies in POM modules, only in JAR/WAR modules. Even if multiple child modules have the same dependency, do not move up the dependency
 
-* Dependency Management
-    * Use exactly one `<dependencyManagement>` block inside the top-level module of the project (the one that defines the project's version number and inherits from a corporate-level POM), not the child modules. In the example above, this would be the `com.example.fortytwo:fortytwo` POM.
-        * _This way, when preparing a release, only one module needs to be checked for SNAPSHOT dependencies._
-    * In `<dependencyManagement>` entries for projects which are part of the aggregator (e.g. dependencies between **fortytwo** projects, see above), specify the version using the variable `${project.version}`. Do not, however, use `${project.groupId}` as the group ID may be different in the POM that has the real dependency.
-    * Do not add `<dependencyManagement>` entries for artifacts which inherit from the current one. For example, if the **fortytwo** project inherits from the corporate-level POM, that corporate POM should not have a `<dependencyManagement>` entry specifying a certain **fortytwo** version.
-        * _Doing so would cause a chicken-and-egg problem when releasing each of the POMs the first time, because a release can only depend on other releases, not SNAPSHOTs, but there are no releases yet. Although introducing the entry later would work, it would confuse the hell out of everybody, so the rule is to avoid this altogether._
+    !!! info "Rationale"
+        This rule avoids declared-unused-dependency warnings from `mvn dependency:analyze`.
+
+### Dependency Management
+* Use exactly one `<dependencyManagement>` block inside the top-level module of the project (the one that defines the project's version number and inherits from a corporate-level POM), not the child modules. In the example above, this would be the `com.example.fortytwo:fortytwo` POM.
+
+    !!! info "Rationale"
+        This way, when preparing a release, only one module needs to be checked for SNAPSHOT dependencies.
+
+* In `<dependencyManagement>` entries for projects which are part of the aggregator (e.g. dependencies between **fortytwo** projects, see above), specify the version using the variable `${project.version}`.
+
+    !!! warning
+        Do not use `${project.groupId}` as the group ID may be different in the POM that has the real dependency.
+
+* Do not add `<dependencyManagement>` entries for artifacts which inherit from the current one. For example, if the **fortytwo** project inherits from the corporate-level POM, that corporate POM should not have a `<dependencyManagement>` entry specifying a certain **fortytwo** version.
+
+    !!! info "Rationale"
+        Doing so would cause a chicken-and-egg problem when releasing each of the POMs the first time, because a release can only depend on other releases, not SNAPSHOTs, but there are no releases yet. Although introducing the entry later would work, it would confuse the hell out of everybody, so the rule is to avoid this altogether.
+
 
 ## Configuring plugins
 
 * Specify the plugin `<version>` inside `<build><pluginManagement>`, never in `<build><plugins>`.
 * Plugin `<executions>`, `<configuration>` and `<dependencies>` elements are also specified inside `<build><pluginManagement>`.
-    * _Apart from consistency, this makes overriding configuration in inheriting projects easier._
+
+    !!! info "Rationale"
+        Apart from consistency, this makes overriding configuration in inheriting projects easier.
+
 * The rules above should result in `<build><plugins><plugin>` entries that only contain `<groupId>` and `<artifactId>`.
 
 ## Sorting POMs
@@ -153,8 +169,18 @@ Recent versions of the corporate POM configure the maven-sortpom-plugin. Just us
 
 * BOMs only consist of a `<dependencyManagement>` section, they do not declare dependencies.
 * Multi-module projects should offer a BOM listing their jar children.
-    * _This can be [imported](http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Importing_Dependencies) into the `<dependencyManagement>` of other projects to ensure all modules used in that project are at the same version._
-* BOMs can also be used to group external dependencies for one topic, e.g. testing-bom or tools-bom.
-    * _This avoids littering our POM landscape with endless combinations of the version numbers of the individual artifacts._
+
+    !!! info "Rationale"
+        This can be [imported](http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Importing_Dependencies) into the `<dependencyManagement>` of other projects to ensure all modules used in that project are at the same version.
+
+* BOMs can also be used to group external dependencies for one topic, e.g. `testing-bom` or `tools-bom`.
+
+    !!! info "Rationale"
+        This avoids littering our POM landscape with endless combinations of the version numbers of the individual artifacts.
+
 * BOMs should only be used outside the project that they represent, not from within.
-    * _Doing the latter can result in chicken-and-egg problems and is thus deemed too complicated._
+
+    !!! info "Rationale"
+        Doing the latter can result in chicken-and-egg problems and is thus deemed too complicated.
+
+
