@@ -1,3 +1,24 @@
 .md-source__facts {
     display: none;
 }
+
+.md-typeset dt {
+    font-weight: bold;
+}
+
+.md-typeset dt > code {
+    font-weight: normal;
+}
+
+.md-typeset dd {
+    margin-top: 0;
+}
+
+.md-typeset dd p:first-child{
+    margin-top: 0;
+}
+
+/* Ensure program element names are not hacked to pieces inside tables. */
+tr > td:first-child > code:first-child:last-child {
+    white-space: nowrap;
+}
