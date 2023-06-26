@@ -48,7 +48,7 @@ Endpoint classes
 :   Contains methods called by the container or framework to handle HTTP requests. Parameters of these methods are
 always DTOs or classes from libraries or the JDK, never business POJOs.
 
-    An endpoint class handles HTTP specifics like path mapping and accessing parameters, then calls the business layer to do the actual work.
+    An endpoint class handles HTTP specifics like path mapping and accessing parameters, then calls the core layer to do the actual work.
 
     Depending on the framework used, these are called REST controllers (Spring MVC), resource classes (JAX-RS) or servlet classes (Servlet Spec). 
 
