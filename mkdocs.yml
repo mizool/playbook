@@ -10,6 +10,7 @@ nav:
     - code-conventions/java.md
     - code-conventions/javascript.md
     - code-conventions/maven.md
+    - code-conventions/branch-naming.md
   - Best practices:
     - best-practices/application-architecture.md
     - best-practices/user-and-address-data.md
