@@ -120,6 +120,50 @@ package. See the class comment for details on when to use each of them.
 
 ## Method design
 
+### Prefer `Optional<>` over `null` or exceptions
+
+Often, one writes a non-void method that can reasonably be expected to _not_ return a value during normal operation.
+This leads to the age-old question whether in such cases, methods should return `null` or throw an exception. In
+general, the idiomatic way to decide between those two approaches seems to be something along the lines of "if failure
+is truly critical, throw an exception, otherwise return `null`."
+
+However, when it comes to maintainability of the code, we found the classic approaches - `null` and `throw` - not
+satisfying:
+
+1. To find which of the two approaches a method uses, developers would have to read the source code of that method plus
+   potentially several layers of callee methods.<br>
+   Alternatively, we would have to mandate that each and every method would need to have Javadoc comments stating the
+   error handling approach, which creates a lot of extra work. However, like any comment, Javadoc cannot be trusted to
+   be kept up to date.
+2. Developers can all too easily forget entirely about having to handle the error case. The compiler and the IDE are not
+   of much help in this regard, placing the burden of finding these errors mostly on automated tests and manual
+   testing.<br>
+   Worse, it is not even obvious to the reader whether the author of any given call site intentionally wrote it to pass
+   along `null` results or to let (runtime) exceptions bubble up or whether they forgot about error handling.
+3. For some code, like the `Read`
+   or `FindBy*` [Store operations](../best-practices/application-architecture.md#store-classes) in our standard
+   architecture, the answer to the question "Is failure exceptional or normal?" entirely depends on the business process
+   the method is used in.<br>
+   In fact, one method might be used both in situations where failure is unacceptable (and the cost of throwing
+   an exception is warranted) **and** in situations where failure is harmless. So picking either `null` or `throw`
+   is not optimal.
+
+Luckily, JDK 8 introduced
+the [`java.util.Optional`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Optional.html) class.
+When methods return `Optional<Foo>` instead of `Foo`, each of the problems above is solved:
+
+1. It is totally obvious at all times how the method handles the "no value" situation, with no need to write extra
+   documentation.
+2. Developers cannot simply forget about the need for error handling: the compiler forces the calling code to explicitly
+   unwrap the `Optional` or return it as-is.
+3. The choice whether the absence of a value is truly critical or can be considered normal is delegated to the call
+   sites. Each call site could treat the error differently, e.g. by throwing an exception, or by adapting and skipping /
+   replacing the related operation.
+
+In summary, we strongly favor returning `Optional` for any method where call sites (could) treat missing values as
+non-critical. For the aforementioned [Store operations](../best-practices/application-architecture.md#store-classes),
+returning `Optional` is even mandatory.
+
 ### Handling `null` parameters
 
 When a method or constructor parameter **should not accept `null`**, go through the following checklist:
