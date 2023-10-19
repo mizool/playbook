@@ -5,7 +5,8 @@ Each package in an application belongs to exactly one of the following layers:
 * Core
 * Store
 
-The diagram below summarizes the package dependencies. For example, a class in a Core layer package can only reference classes in packages from the Store and Business layers.
+The diagram below summarizes the package dependencies. For example, a class in a Core layer package can only reference
+classes in packages from the Store and Business layers.
 
 <!-- TODO replace with plugin mentioned at https://github.com/squidfunk/mkdocs-material/discussions/3539 --> 
 ![](https://kroki.io/ditaa/svg/eNrT1kUG2gpAoE1QiKtGARnUwAm8QhBdQa7BIRC-ra2tHVjIOb8oFU0ouAQqVkOmXdpk-Quq3UoBA-AQIl9HGaY0DiE0vxAH0OOIOFCDQ5dTaXFmXmpxMWm6CNlFlr8AiABvlQ==)
@@ -90,7 +91,23 @@ Converter classes
 * To the business layer, store operations are atomic.
     * For example, when implementing "Create" is only possible with a read before a write, those calls are encapsulated
       inside one store class.
-* Internally, a store may call other stores as needed.
+* The store operations for a given entity often implement certain guarantees, and those guarantees should be made
+  explicit in the store operation APIs.<br>
+  Corollary: no set of related store operations should make promises in their APIs that they (collectively) cannot
+  guarantee. 
+    * For example, imagine a `User` business POJO where email addresses are converted to lowercase for storage and
+      querying purposes. Therefore, we would write the `UserCreateStore` and `UserUpdateStore` classes in a way to
+      prevent any two users from having email addresses which only differ by case. Consequently,
+      the `UserFindByEmailStore` can use a lowercase version of the given email address as its lookup criterion and
+      reliably assume that there will be either no results or a single one.
+
+    !!! note "Implementing store guarantees"
+        It does not matter whether the guarantee is implemented using Java code in store classes, database features like
+        unique indexes, or a combination of both. All that matters is that there is a real guarantee (and not just hope 
+        that humans will use the application in the expected way) and that it is indeed implemented in the store layer 
+        (and not some other layer).
+
+* Internally, a store class may call other stores as needed.
 
 #### Standard operations
 
