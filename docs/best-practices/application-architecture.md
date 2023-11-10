@@ -41,6 +41,18 @@ classes in packages from the Store and Business layers.
     !!! info "Rationale"
         This ensures that they can be passed around freely between layers without causing cycles in package or module dependencies.
 
+* POJO instances should be immutable. The preferred technique is to annotate the class with Lombok's `@Value` and `@Builder` annotations:
+    ```java
+    @Value
+    @Builder(toBuilder = true)
+    public class MyClass
+    {
+    }
+    ```
+
+    !!! info "Rationale"
+        Immutable POJO classes not only facilitate thread-safe programming, but also prevent various mistakes: changing an instance's fields usually changes its hash code, which can break the behavior of any collection the instance is contained in. Another danger in altering an instance is that one may not be aware that another other part of the application still has a reference to that instance, but may not be built to deal with such changes. 
+
 ## REST layer
 
 Classes in this layer are never referenced by application classes in another layer.
