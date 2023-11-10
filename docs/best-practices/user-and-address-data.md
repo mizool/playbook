@@ -7,7 +7,7 @@ autofill):
 
     > For example, while it is common in some Western cultures to have a given name and a family name, in that order (and thus often referred to as a first name and a surname), many cultures put the family name first and the given name second, and many others simply have one name (a mononym). Having a single field is therefore more flexible.
 
-    More enlightening facts on what names (don't) look like can be found in [Falsehoods Programmers Believe About Names](http://www.kalzumeus.com/2010/06/17/falsehoods-programmers-believe-about-names/).
+    More enlightening facts on what names (don't) look like can be found in [Falsehoods Programmers Believe About Names – With Examples](https://shinesolutions.com/2018/01/08/falsehoods-programmers-believe-about-names-with-examples/).
 
 ## Email address
 
