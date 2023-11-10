@@ -42,8 +42,8 @@ as [Mockito supports mocking such classes](https://github.com/mockito/mockito/wi
 For data classes, use the following Lombok annotations:
 
 ```java
-
-@Value @Builder(toBuilder = true)
+@Value
+@Builder(toBuilder = true)
 ```
 
 This results in final, immutable classes. With `MyClass.builder()` and `instance.toBuilder()`, they offer the same
@@ -193,48 +193,48 @@ When a method or constructor parameter **does accept null**, this is unusual, bu
 Do not write:
 
 ```java
-if(something==okay)
-        {
-        // Do work
-        }
-        else
-        {
-        throw new SomethingWentWrongException("...");
-        }
+if (something == okay)
+{
+    // Do work
+}
+else
+{
+    throw new SomethingWentWrongException("...");
+}
 ```
 
-Instead, use a so-called "watcher if":
+Instead, use a so-called **watcher if**:
 
 ```java
-if(something!=okay)
-        {
-        throw new SomethingWentWrongException("...");
-        }
+if (something != okay)
+{
+    throw new SomethingWentWrongException("...");
+}
 
 // Do work. Look, Mum, no else block!
 ```
 
-Also consider moving that watcher if to a `verify*()` method to increase readability:
+Also consider moving that _watcher if_ to a `verify*()` method to increase readability:
 
 ```java
 public doWork()
-        {
-        verifyFluxCapacitorCharged();
+{
+    verifyFluxCapacitorCharged();
 
-        // Do work
-        }
+    // Do work
+}
 
 private verifyFluxCapacitorCharged()
-        {
-        if(!fluxCapacitor.isCharged())
-        {
+{
+    if (!fluxCapacitor.isCharged())
+    {
         throw new IllegalStateException("Flux capacitor must be charged");
-        }
-        }
+    }
+}
 ```
 
-Using watcher ifs and `verify*()` methods has the advantage that adding more checks does not increase the indentation
-level of the "good case" code.
+Using the _watcher if_ pattern and `verify*()` methods has the advantage that adding more checks does not increase the
+indentation level of the "good case" code.
 
 ## Constructors
 
@@ -255,9 +255,9 @@ developers from accidentally invoking that constructor in production code. For i
 is no obstacle.
 
 ```java
-
 @RequiredArgsConstructor(onConstructor_ = @Inject, access = AccessLevel.PACKAGE)
-public class Foo {
+public class Foo
+{
     private final Bar bar;
 }
 ```
