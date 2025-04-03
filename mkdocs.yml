@@ -9,6 +9,7 @@ nav:
     - code-conventions/general-naming.md
     - code-conventions/java.md
     - code-conventions/javascript.md
+    - code-conventions/sql.md
     - code-conventions/maven.md
     - code-conventions/branch-naming.md
   - Best practices:
