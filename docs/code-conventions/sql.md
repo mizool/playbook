@@ -42,14 +42,13 @@ The following rules are conscious departures from ed-DB-119.
 
 Names of keys, indexes and constraints follow the structure given below, with segments separated by double underscores (`__`). 
 
-| Element                | Name segments                                                    | Examples                                                                      |
-|------------------------|------------------------------------------------------------------|-------------------------------------------------------------------------------|
-| Primary key            | table name<br>`pk`                                               | `my_cool_table__pk`                                                           |
-| Foreign key constraint | owning table<br>`fk`<br>each included column of the owning table | `login__fk__account_id`<br>`book__fk__author_id`                              |
-| Unique index           | table name<br>`u`<br>title / each included column                | `document__u__id__account_id`<br>`subscription__u__one_active_per_account_id` |
-| Other index            | table name<br>`i`<br>each included column                        | `group__i__parent_id`                                                         |
-| Check constraint       | table name<br>`c`<br>title                                       | `account__c__name_length`<br>`contact__c__email_or_phone_set`                 |
-
+| Element                           | Name segments                                                    | Examples                                                                      |
+|-----------------------------------|------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| Primary key                       | table name<br>`pk`                                               | `my_cool_table__pk`                                                           |
+| Foreign key constraint            | owning table<br>`fk`<br>each included column of the owning table | `book__fk__author_id`<br>`complaint__fk__order_id__order_line_pos`            |
+| Unique index<br>(full or partial) | table name<br>`u`<br>title / each included column                | `document__u__id__account_id`<br>`subscription__u__one_active_per_account_id` |
+| Other index<br>(full or partial)  | table name<br>`i`<br>title / each included column                | `group__i__parent_id`<br>`orders__i__unbilled_order_numbers`                  |
+| Check constraint                  | table name<br>`c`<br>title                                       | `account__c__name_length`<br>`contact__c__email_or_phone_set`                 |
 
 !!! info "Name length"
 
@@ -58,21 +57,33 @@ Names of keys, indexes and constraints follow the structure given below, with se
     In case a name constructed according to the rules above ends up being too long, abbreviate or truncate some segments.
     However, double check that it is still obvious which column each name segment refers to, and that there is no ambiguity.
 
-## Keys and constraints
+## Tables and columns
 
-- Primary keys
-    - Define the primary key of a table explicitly, not as part of a column definition.
-    - The key name is always specified.
+- Define primary keys, foreign key constraints, check constraints and indexes (unique or otherwise) explicitly, not as part of a column definition.
+- Always specify the name of keys, constraints and indexes.
+  Letting the RDBMS generate names would prevent developers from documenting their intention and often makes code hard to comprehend. 
 - Foreign key constraints
     - Each relation between tables must be covered by a foreign key constraint (see ed-DB-107).
     - Only specify the clauses that deviate from the default, e.g. include `on delete cascade` but don't add `on update no action`.
-    - If the referenced column is the primary key, specify only the table name without a column name: use `references account`, not `references account(id)`.
+    - If the referenced column is the primary key, specify only the table name without a column name:
+      ```sql
+      constraint book__fk__author_id
+          foreign key (author_id)
+              references author   -- leave out `(id)` here
+              on delete cascade
+      ```
+
 
 ## Syntax and data types
 
 - As columns are nullable by default, omit the `null` keyword in column definitions.
 - Type casts
-    - Prefer ANSI SQL syntax for casts (`cast(my_value as text)`) over RDBMs specific syntax (`my_value::text`).
+    - Prefer ANSI SQL syntax for casts over RDBMs specific syntax:
+      ```sql
+      cast(my_value as text)  -- good!
+      
+      my_value::text          -- bad, avoid PostgreSQL specific syntax where possible.
+      ```
     - Avoid scattering type casts all over the place, it makes the code harder to read (and may even lead to back-and-forth casting which is confusing).
       Instead, try to centralize them using either of the following strategies:
         - near the original columns (e.g. the lowest levels of a multi-level Join) when working with raw data not usable otherwise (e.g. when dates or numbers are imported and stored as strings)
