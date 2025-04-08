@@ -57,7 +57,7 @@ Names of keys, indexes and constraints follow the structure given below, with se
     In case a name constructed according to the rules above ends up being too long, abbreviate or truncate some segments.
     However, double check that it is still obvious which column each name segment refers to, and that there is no ambiguity.
 
-## Tables and columns
+## Table and column declarations
 
 - Define primary keys, foreign key constraints, check constraints and indexes (unique or otherwise) explicitly, not as part of a column definition.
 - Always specify the name of keys, constraints and indexes.
@@ -83,7 +83,27 @@ Names of keys, indexes and constraints follow the structure given below, with se
     - Also, following this rule makes it easier to connect additional systems (each with their own column), or migrate from one to the other.
 - As columns are nullable by default, omit the `null` keyword in column definitions.
 
-## Syntax and data types
+## Data types
+
+Textual data: `text` vs. `varchar`
+: In PostgreSQL and other RDBMS that support it, use the `text` datatype for any textual column, irrespective of the length of expected values.
+  Unlike `varchar(x)`, the `text` datatype does not need (or support) a predefined length, which makes code more maintainable.
+
+    !!! note "Implementing length restrictions"
+        If you _do_ need to enforce a length restriction on the database level, use a check constraint instead.
+        This way, changing the length restriction later on will not cause the RDBMS to physically rewrite the entire table.
+
+Using `decimal` and `numeric`
+: In PostgreSQL, `decimal` and `numeric` can be used without specifying a precision or scale[^1].
+  This style is preferred as it makes code more maintainable.
+
+    !!! warning "Non-standard behavior"
+        ANSI SQL specifies that leaving out the precision or scale is equivalent to `(0)`, i.e. integer values.
+        Still, the PostgreSQL behavior is so useful that we accept this tradeoff in portability.
+
+[^1]: See the paragraph on "unconstrained numeric" columns in the [numeric datatypes](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) chapter of the PostgreSQL docs.
+
+## Syntax
 
 - Do not quote identifiers unless it is required, for example because a column name is a reserved word (e.g. `timestamp`). 
 - Type casts
