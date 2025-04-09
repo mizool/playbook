@@ -24,19 +24,30 @@ If you encounter such a case, discuss it with other developers, then choose an a
 
 ### General naming
  
-- Use lower case for all identifiers in databases, and use `snake_case` for multi-word identifiers (see [Capitalization and format](naming.md#capitalization-and-format) and ed-DB-115).
+- Use lower case for all identifiers in databases, and use `snake_case` for multi-word identifiers (see [Capitalization and format](naming.md#capitalization-and-format), ed-DB-115 and ed-DB-116).
 - Avoid abbreviations and specifically making up your own abbreviations.
   For details, see [General rules](naming#general-rules) and ed-DB-118.
+
+### Tables and views
+
 - Table names use singular (`book`, not `books`).
   See ed-DB-117.
-- Do not add prefixes and suffixes to the name of a column based on its type or usage.
-    - Specifically, do not add `fk_` to the name of a column that is (part of) a foreign key constraint (a practice suggested by ed-DB-119).
 - Do not add a general prefix or suffix to the name of views to distinguish them from tables (a practice suggested by ed-DB-119).
     - A side effect of this rule is that you cannot have a table `foo_status` accompanied by a `v_foo_status` view, which we think would be confusing.
       If a view has some specific purpose, include it in the name instead, e.g. `foo_status_printable`.
-      This way, it (mostly) becomes an implementation detail whether it's a view or a table.
+      This way, it (mostly) becomes an implementation detail whether a name refers to a view or a table.
 
-### Names of keys, indexes and constraints
+### Columns
+
+- Primary key column names do not repeat the name of the table (see ed-DB-119).
+
+    !!! example
+        A `book` table could have a primary key column called `id` or `key`, but not `book_id` or `book_key`.
+
+- Do not add prefixes and suffixes to the name of a column based on its type or usage.
+    - Specifically, do not add `fk_` to the name of a column that is (part of) a foreign key constraint (a practice suggested by ed-DB-119).
+
+### Keys, indexes and constraints
 
 The following rules are conscious departures from ed-DB-119.
 
