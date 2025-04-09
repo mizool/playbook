@@ -57,6 +57,18 @@ Names of keys, indexes and constraints follow the structure given below, with se
     In case a name constructed according to the rules above ends up being too long, abbreviate or truncate some segments.
     However, double check that it is still obvious which column each name segment refers to, and that there is no ambiguity.
 
+### Sequences and triggers
+
+- Sequence names consist of the corresponding table name and the suffix `__seq` (same as ed-DB-119 but with `__` instead of `_`).
+- Trigger names consist of the table name, two underscores and a short but meaningful title.
+  We intentionally do not add prefixes (like `trg_` from ed-DB-119) or suffixes (e.g. `bu` for "before update" from ed-DB-119). 
+
+    !!! example "Examples"
+        - `book__insert`, `book__update` and `book__delete`
+        - `my_cool_table__track_history`
+        - `payment__trigger_processing`
+
+
 ## Table and column declarations
 
 - Define primary keys, foreign key constraints, check constraints and indexes (unique or otherwise) explicitly, not as part of a column definition.
