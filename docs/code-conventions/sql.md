@@ -85,21 +85,30 @@ Names of keys, indexes and constraints follow the structure given below, with se
 
 ## Data types
 
-Textual data: `text` vs. `varchar`
-: In PostgreSQL and other RDBMS that support it, use the `text` datatype for any textual column, irrespective of the length of expected values.
+### Textual data: `text` vs. `varchar`
+- In PostgreSQL and other RDBMS that support it, use the `text` datatype for any textual column, irrespective of the length of expected values.
   Unlike `varchar(x)`, the `text` datatype does not need (or support) a predefined length, which makes code more maintainable.
 
     !!! note "Implementing length restrictions"
         If you _do_ need to enforce a length restriction on the database level, use a check constraint instead.
         This way, changing the length restriction later on will not cause the RDBMS to physically rewrite the entire table.
 
-Using `decimal` and `numeric`
-: In PostgreSQL, `decimal` and `numeric` can be used without specifying a precision or scale[^1].
-  This style is preferred as it makes code more maintainable.
+### Using `decimal` and `numeric`
+
+- In PostgreSQL, our default choice for storing numbers of any kind is to use `numeric` without specifying a precision or scale.
+  Such columns can store several thousands of digits both before and after the decimal point.[^1]
+  Not having to define precision or scale in advance makes our SQL code more maintainable.
 
     !!! warning "Non-standard behavior"
         ANSI SQL specifies that leaving out the precision or scale is equivalent to `(0)`, i.e. integer values.
         Still, the PostgreSQL behavior is so useful that we accept this tradeoff in portability.
+
+- Only when there is a good reason to have the database coerce or round input values to a certain precision or scale, use `decimal(p,s)` with appropriate values.
+  One such reason, obviously, is that the respective project does not use PostgreSQL.
+
+- Although `numeric` and `decimal` are synonyms, we use each exclusively for the purpose given above in order to make our intentions more obvious.
+  Therefore, never use `numeric(p,s)` (with scale and precision) or `decimal` (without scale and precision).
+
 
 [^1]: See the paragraph on "unconstrained numeric" columns in the [numeric datatypes](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) chapter of the PostgreSQL docs.
 
@@ -111,7 +120,7 @@ Using `decimal` and `numeric`
       ```sql
       cast(my_value as text)  -- good!
       
-      my_value::text          -- bad, avoid PostgreSQL specific syntax where possible.
+      my_value::text          -- bad, avoid PostgreSQL syntax where possible.
       ```
     - Avoid scattering type casts all over the place, it makes the code harder to read (and may even lead to back-and-forth casting which is confusing).
       Instead, try to centralize them using either of the following strategies:
