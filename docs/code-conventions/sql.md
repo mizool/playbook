@@ -24,9 +24,9 @@ If you encounter such a case, discuss it with other developers, then choose an a
 
 ### General naming
  
-- Use lower case for all identifiers in databases, and use `snake_case` for multi-word identifiers (see [Capitalization and format](naming.md#capitalization-and-format), ed-DB-115 and ed-DB-116).
+- Use lower case for all identifiers in databases, and use `snake_case` for multi-word identifiers (see [Capitalization and format](general-naming.md#capitalization-and-format), ed-DB-115 and ed-DB-116).
 - Avoid abbreviations and specifically making up your own abbreviations.
-  For details, see [General rules](naming#general-rules) and ed-DB-118.
+  For details, see [General rules](general-naming.md#general-rules) and ed-DB-118.
 
 ### Tables and views
 
