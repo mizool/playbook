@@ -95,9 +95,10 @@ Names of keys, indexes and constraints follow the structure given below, with se
     - Also, following this rule makes it easier to connect additional systems (each with their own column), or migrate from one to the other.
 - As columns are nullable by default, omit the `null` keyword in column definitions.
 
-## Data types
+## Datatypes
 
 ### Textual data: `text` vs. `varchar`
+
 - In PostgreSQL and other RDBMS that support it, use the `text` datatype for any textual column, irrespective of the length of expected values.
   Unlike `varchar(x)`, the `text` datatype does not need (or support) a predefined length, which makes code more maintainable.
 
@@ -121,8 +122,16 @@ Names of keys, indexes and constraints follow the structure given below, with se
 - Although `numeric` and `decimal` are synonyms, we use each exclusively for the purpose given above in order to make our intentions more obvious.
   Therefore, never use `numeric(p,s)` (with scale and precision) or `decimal` (without scale and precision).
 
-
 [^1]: See the paragraph on "unconstrained numeric" columns in the [numeric datatypes](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) chapter of the PostgreSQL docs.
+
+### Boolean values
+
+- In PostgreSQL and other RDBMS that support it or an equivalent datatype, we use `boolean` for all boolean-valued columns. 
+    - Note that by default, such columns allow `null` in addition to `true` and `false`.
+      Specify the column with a `not null` clause to prevent this.
+- If `boolean` is not supported, it can be emulated with the `smallint` datatype (or equivalent).
+  To maintain integrity and document your intention, add a check constraint that limits the column values to `0` and `1`.
+
 
 ## Syntax
 
