@@ -27,6 +27,19 @@ If you encounter such a case, discuss it with other developers, then choose an a
 - Use lower case for all identifiers in databases, and use `snake_case` for multi-word identifiers (see [Capitalization and format](general-naming.md#capitalization-and-format), ed-DB-115 and ed-DB-116).
 - Avoid abbreviations and specifically making up your own abbreviations.
   For details, see [General rules](general-naming.md#general-rules) and ed-DB-118.
+- In general, names use English. However, German terms should be used when they refer to any of the following:
+    - business domain terms with company-specific meaning
+    - terms that are hard to translate as they are specific to German laws and institutions
+    - objects in other databases that the application interacts with
+    - arguments/fields in internal protocols (e.g. REST calls, asynchronous messages) or official standards
+
+    !!! example "Examples"
+        - The company-specific terms "Beraternummer" and "Mandantennummer" are not translated.
+        - "bank_statement" (or "bankstatement") is okay as the domain concept ("Kontoauszug") is not at all company specific and translating it does not cause loss of meaning.
+            - However, it is not acceptable if it refers to a specific table in another database that uses the German term.
+
+    !!! info
+        This rule is similar to, but less strict than ed-DB-112.
 
 ### Tables and views
 
