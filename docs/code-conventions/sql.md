@@ -137,18 +137,26 @@ Names of keys, indexes and constraints follow the structure given below, with se
 
 ## Datatypes
 
-### Textual data: `text` vs. `varchar`
+### Textual data
 
-- In PostgreSQL and other RDBMS that support it, use the `text` datatype for any textual column, irrespective of the length of expected values.
-  Unlike `varchar(x)`, the `text` datatype does not need (or support) a predefined length, which makes code more maintainable.
+- In PostgreSQL, whenever we use the `varchar` datatype, we do not specify its maximum length.
+  Such columns can store several hundreds of thousands of characters.
+  Not having to define the length in advance makes our SQL code more maintainable.
 
     !!! note "Implementing length restrictions"
         If you _do_ need to enforce a length restriction on the database level, use a check constraint instead.
         This way, changing the length restriction later on will not cause the RDBMS to physically rewrite the entire table.
 
-### Using `decimal` and `numeric`
+    !!! warning "Non-standard behavior"
+        In ANSI SQL, the maximum length of a `varchar` must be specified.
+        Still, the PostgreSQL behavior is so useful that we accept this tradeoff in portability.
 
-- In PostgreSQL, our default choice for storing numbers of any kind is to use `numeric` without specifying a precision or scale.
+- Avoid using PostgreSQL's `text` datatype.
+  While it offers the same advantage as an unbounded `varchar` (see above), it would prevent us from ever using that column as part of an index.
+
+### Numeric data
+
+- In PostgreSQL, our default choice for storing numbers of any kind is to use `decimal` without specifying a precision or scale.
   Such columns can store several thousands of digits both before and after the decimal point.[^1]
   Not having to define precision or scale in advance makes our SQL code more maintainable.
 
@@ -159,8 +167,8 @@ Names of keys, indexes and constraints follow the structure given below, with se
 - Only when there is a good reason to have the database coerce or round input values to a certain precision or scale, use `decimal(p,s)` with appropriate values.
   One such reason, obviously, is that the respective project does not use PostgreSQL.
 
-- Although `numeric` and `decimal` are synonyms, we use each exclusively for the purpose given above in order to make our intentions more obvious.
-  Therefore, never use `numeric(p,s)` (with scale and precision) or `decimal` (without scale and precision).
+- ANSI SQL specifies that `numeric` and `decimal` are synonyms.
+  To avoid any potential confusion, our code exclusively uses the `decimal` name for this datatype.
 
 [^1]: See the paragraph on "unconstrained numeric" columns in the [numeric datatypes](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) chapter of the PostgreSQL docs.
 
@@ -169,7 +177,7 @@ Names of keys, indexes and constraints follow the structure given below, with se
 - In PostgreSQL and other RDBMS that support it or an equivalent datatype, we use `boolean` for all boolean-valued columns.
     - Always specify `boolean` columns as `not null` unless `null` is forced upon us by the source of the data (e.g. an upstream system).
       Allowing `null` makes it harder to use the column later on, as it ends up having three possible states instead of two, leaving it up to debate whether `null` means `false` or `true`.
-    - If you do need to allow `null`, be sure to add a comment explaining the meaning of `null` values. 
+    - If you _do_ need to allow `null`, be sure to add a comment explaining the meaning of `null` values. 
 
         !!! example "Examples"
             - "null means there was no value present when importing."
