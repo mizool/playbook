@@ -92,7 +92,7 @@ Names of keys, indexes and constraints follow the structure given below, with se
 - Sequence names consist of the corresponding table name and the suffix `__seq` (same as ed-DB-119 but with `__` instead of `_`).
 
     !!! warning "Identity columns"
-        Before creating a sequence, double-check whether an identity column could be used instead.
+        Before creating a sequence, double check whether an identity column could be used instead.
         See the respective rule in the [Table and column declarations](#table-and-column-declarations) section below.
   
 - Trigger names consist of the table name, two underscores and a short but meaningful title.
@@ -189,7 +189,8 @@ Names of keys, indexes and constraints follow the structure given below, with se
 
 ## Syntax
 
-- Do not quote identifiers unless it is required, for example because a column name is a reserved word (e.g. `timestamp`). 
+- Do not quote identifiers unless it is required, for example because a column name is a reserved word (e.g. `timestamp`).
+- Write SQL keywords, names of built-in objects and other predefined words in lower case.
 - Type casts
     - Prefer ANSI SQL syntax for casts over RDBMs specific syntax:
       ```sql
