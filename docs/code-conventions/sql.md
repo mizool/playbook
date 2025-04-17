@@ -166,9 +166,15 @@ Names of keys, indexes and constraints follow the structure given below, with se
 
 ### Boolean values
 
-- In PostgreSQL and other RDBMS that support it or an equivalent datatype, we use `boolean` for all boolean-valued columns. 
-    - Note that by default, such columns allow `null` in addition to `true` and `false`.
-      Specify the column with a `not null` clause to prevent this.
+- In PostgreSQL and other RDBMS that support it or an equivalent datatype, we use `boolean` for all boolean-valued columns.
+    - Always specify `boolean` columns as `not null` unless `null` is forced upon us by the source of the data (e.g. an upstream system).
+      Allowing `null` makes it harder to use the column later on, as it ends up having three possible states instead of two, leaving it up to debate whether `null` means `false` or `true`.
+    - If you do need to allow `null`, be sure to add a comment explaining the meaning of `null` values. 
+
+        !!! example "Examples"
+            - "null means there was no value present when importing."
+            - "If the user has not overridden the default value inherited from their group config, this column is null."
+
 - If `boolean` is not supported, it can be emulated with the `smallint` datatype (or equivalent).
   To maintain integrity and document your intention, add a check constraint that limits the column values to `0` and `1`.
 
