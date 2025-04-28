@@ -25,6 +25,16 @@ Be sure to read our [naming conventions](general-naming.md).
 * In interface method declarations, never use `public` or `abstract` as both are implied.
 * Never use `final` on local variables (including method arguments) unless forced by the compiler.
 
+### Use of the `var` keyword
+
+When the variable name is equivalent to the class name (`SplineReticulator splineReticulator = ...`), use of the `var` keyword is encouraged to avoid repetition.
+
+Additionally, `var` can be used to avoid spelling out the bulky type name of a Lombok-generated builder class.
+
+However, do not use the `var` keyword in other cases.
+In particular, do not use `var` just because you think the type is "obvious" (as it may not be that obvious to readers including future you).
+Also, avoid using `var` when there are several variables of the same type.  
+
 ### Comments
 
 * TODOs, either with or without issue keys, are discouraged as experience has shown that they tend to lose contact with
