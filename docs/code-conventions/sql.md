@@ -58,13 +58,13 @@ If you encounter such a case, discuss it with other developers, then choose an a
 
 Names of keys, indexes and constraints follow the structure given below, with segments separated by double underscores (`__`).
 
-| Element                           | Name segments                                                    | Examples                                                                      |
-|-----------------------------------|------------------------------------------------------------------|-------------------------------------------------------------------------------|
-| Primary key                       | table name<br>`pk`                                               | `my_cool_table__pk`                                                           |
-| Foreign key constraint            | owning table<br>`fk`<br>each included column of the owning table | `book__fk__author_id`<br>`complaint__fk__order_id__order_line_pos`            |
-| Unique index<br>(full or partial) | table name<br>`u`<br>title / each included column                | `document__u__id__account_id`<br>`subscription__u__one_active_per_account_id` |
-| Other index<br>(full or partial)  | table name<br>`i`<br>title / each included column                | `group__i__parent_id`<br>`orders__i__unbilled_order_numbers`                  |
-| Check constraint                  | table name<br>`c`<br>title                                       | `account__c__name_length`<br>`contact__c__email_or_phone_set`                 |
+| Element                           | Name segments                                                                   | Examples                                                                      |
+|-----------------------------------|---------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| Primary key                       | <ul><li>table name,<li>`pk`</ul>                                                | `my_cool_table__pk`                                                           |
+| Foreign key constraint            | <ul><li>owning table,<li>`fk`,<li>each included column of the owning table</ul> | `book__fk__author_id`<br>`complaint__fk__order_id__order_line_pos`            |
+| Unique index<br>(full or partial) | <ul><li>table name,<li>`u`,<li>title / each included column</ul>                | `document__u__id__account_id`<br>`subscription__u__one_active_per_account_id` |
+| Other index<br>(full or partial)  | <ul><li>table name,<li>`i`,<li>title / each included column</ul>                | `group__i__parent_id`<br>`orders__i__unbilled_order_numbers`                  |
+| Check constraint                  | <ul><li>table name,<li>`c`,<li>title</ul>                                       | `account__c__name_length`<br>`contact__c__email_or_phone_set`                 |
 
 !!! info "Name length"
 

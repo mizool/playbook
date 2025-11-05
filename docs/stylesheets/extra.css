@@ -19,6 +19,10 @@
 }
 
 /* Ensure program element names are not hacked to pieces inside tables. */
-tr > td:first-child > code:first-child:last-child {
+.md-typeset table code {
     white-space: nowrap;
+}
+
+.md-typeset table li {
+    margin: 0;
 }
